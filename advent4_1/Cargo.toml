@@ -1,0 +1,10 @@
+[package]
+name = "advent4_1"
+version = "0.1.0"
+authors = ["Jacob Kaplan-Moss <jacob@jacobian.org>"]
+edition = "2018"
+
+[dependencies]
+regex = "1"
+utils = { path = "../utils" }
+

@@ -1,0 +1,4 @@
+#!/bin/bash
+
+cargo build
+./target/debug/advent$1 inputs/${1%_*}.txt
