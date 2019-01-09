@@ -49,6 +49,13 @@ dependencies = [
 ]
 
 [[package]]
+name = "advent5_1"
+version = "0.1.0"
+dependencies = [
+ "utils 0.1.0",
+]
+
+[[package]]
 name = "aho-corasick"
 version = "0.6.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
