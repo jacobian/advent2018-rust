@@ -1,9 +1,9 @@
+use regex::Regex;
 use std::collections::BTreeMap;
 use std::collections::HashMap;
 use std::fs::File;
 use std::io::prelude::*;
 use std::io::BufReader;
-use regex::Regex;
 use utils;
 
 fn main() {
@@ -54,7 +54,10 @@ fn main() {
     for (timestamp, message) in activity_log {
         // "Guard #123 begins shift" --> record current guard, continue
         if message[..5] == String::from("Guard") {
-            let guard_id_str = message.split_whitespace().nth(1).expect("invalid guard message");
+            let guard_id_str = message
+                .split_whitespace()
+                .nth(1)
+                .expect("invalid guard message");
             cur_guard = Some(guard_id_str[1..].parse().expect("invalid guard id"));
 
         // "falls alseep" --> record current sleep minute, continue
@@ -93,13 +96,22 @@ fn main() {
     // XXX I don't entierly understand why I need the deref here
     let max_sleep: u32 = *sleepiness_map.keys().max().unwrap();
     let sleepiest_guard = sleepiness_map.get(&max_sleep).unwrap();
-    println!("sleepiest guard: #{} - {} minutes asleep", sleepiest_guard, max_sleep);
+    println!(
+        "sleepiest guard: #{} - {} minutes asleep",
+        sleepiest_guard, max_sleep
+    );
 
     // which minute was this guard asleep for the most amount of time?
     let sleepiest_guards_tracker = sleep_tracker.get(sleepiest_guard).unwrap();
     let max_sleeping_minutes: u32 = *sleepiest_guards_tracker.iter().max().unwrap();
-    let sleepiest_minute = sleepiest_guards_tracker.iter().position(|m| m == &max_sleeping_minutes).unwrap();
-    println!("sleepiest minute: {} ({} minutes asleep)", sleepiest_minute, max_sleeping_minutes);
+    let sleepiest_minute = sleepiest_guards_tracker
+        .iter()
+        .position(|m| m == &max_sleeping_minutes)
+        .unwrap();
+    println!(
+        "sleepiest minute: {} ({} minutes asleep)",
+        sleepiest_minute, max_sleeping_minutes
+    );
 
     // XXX part 2 here using data from sleep_minute_tracker
     // skipping for now because it's kinda tedius
@@ -112,7 +124,7 @@ struct Timestamp {
     month: u8,
     day: u8,
     hour: u8,
-    minute: u8
+    minute: u8,
 }
 
 impl Timestamp {

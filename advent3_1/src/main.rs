@@ -1,10 +1,10 @@
+use regex::Regex;
 use std::collections::HashSet;
 use std::env;
 use std::fs::File;
-use std::io::BufReader;
 use std::io::prelude::*;
+use std::io::BufReader;
 use std::path::Path;
-use regex::Regex;
 
 fn main() {
     let args: Vec<String> = env::args().collect();
@@ -23,12 +23,12 @@ fn main() {
     for line in buffer.lines() {
         let claim = Claim::from_string(&line.unwrap());
 
-        for x in claim.top .. claim.top + claim.height {
-            for y in claim.left .. claim.left + claim.width {
-                if fabric.contains(&(x,y)) {
-                    overlaps.insert((x,y));
+        for x in claim.top..claim.top + claim.height {
+            for y in claim.left..claim.left + claim.width {
+                if fabric.contains(&(x, y)) {
+                    overlaps.insert((x, y));
                 } else {
-                    fabric.insert((x,y));
+                    fabric.insert((x, y));
                 }
             }
         }
@@ -36,7 +36,6 @@ fn main() {
 
     println!("Overlapping Count: {}", overlaps.len());
 }
-
 
 #[derive(Debug)]
 struct Claim {

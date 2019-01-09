@@ -1,20 +1,20 @@
+use std::collections::HashSet;
 use std::io::prelude::*;
 use std::io::BufReader;
-use std::collections::HashSet;
 use utils;
 
-fn main () {
+fn main() {
     // read list of frequency changes from file into a list
     // we're going to repeat over this list multiple times possibly
     // it feels like there should be an easier way to read lines into
     // a list of ints -- this feels like a lot of code.
     let file = utils::open_argv1();
     let buffer = BufReader::new(file);
-    let mut changes:Vec<i32> = Vec::new();
+    let mut changes: Vec<i32> = Vec::new();
     for line in buffer.lines() {
-        let val:i32 = match line.unwrap().parse() {
+        let val: i32 = match line.unwrap().parse() {
             Err(_) => continue,
-            Ok(num) => num
+            Ok(num) => num,
         };
         changes.push(val);
     }
@@ -26,10 +26,12 @@ fn main () {
     // need to loop multiple times.
     let mut index = 0;
     let mut frequency = 0;
-    let mut seen_frequencies:HashSet<i32> = HashSet::new();
+    let mut seen_frequencies: HashSet<i32> = HashSet::new();
     loop {
         frequency += changes[index];
-        if seen_frequencies.contains(&frequency) { break; }
+        if seen_frequencies.contains(&frequency) {
+            break;
+        }
         seen_frequencies.insert(frequency);
         index += 1;
         if index >= changes.len() {

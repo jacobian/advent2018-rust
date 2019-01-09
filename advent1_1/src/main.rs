@@ -2,7 +2,7 @@ use std::io::prelude::*;
 use std::io::BufReader;
 use utils;
 
-fn main () {
+fn main() {
     let file = utils::open_argv1();
 
     // use a buffer to read lines
@@ -11,9 +11,9 @@ fn main () {
     let buffer = BufReader::new(file);
     let mut frequency = 0;
     for line in buffer.lines() {
-        let val:i32 = match line.unwrap().parse() {
+        let val: i32 = match line.unwrap().parse() {
             Err(_) => continue,
-            Ok(n) => n
+            Ok(n) => n,
         };
         frequency += val;
     }

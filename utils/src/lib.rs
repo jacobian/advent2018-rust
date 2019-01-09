@@ -8,4 +8,3 @@ pub fn open_argv1() -> File {
     let path = Path::new(&args[1]);
     return File::open(&path).expect(&format!("can't open {:?}", path));
 }
-

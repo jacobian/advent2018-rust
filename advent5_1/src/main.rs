@@ -27,7 +27,6 @@ fn main() {
         "Removing '{}' yields shortest, length {}",
         removed_char, resulting_length
     );
-
 }
 
 fn react(s: &String) -> String {

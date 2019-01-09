@@ -3,13 +3,16 @@ use std::io::prelude::*;
 use std::io::BufReader;
 use utils;
 
-fn main () {
+fn main() {
     let file = utils::open_argv1();
     let buffer = BufReader::new(file);
 
     // Need to_string here for reasons I don't totally undertand
     // otherwise get a "doesn't have a size known at compile-time" down below in the for loop.
-    let box_ids:Vec<String> = buffer.lines().map(|line| line.unwrap().to_string()).collect();
+    let box_ids: Vec<String> = buffer
+        .lines()
+        .map(|line| line.unwrap().to_string())
+        .collect();
 
     'outer: for id1 in box_ids.iter() {
         for id2 in box_ids.iter() {
@@ -27,7 +30,8 @@ fn main () {
 
 // diff two strings, returning the indexes that differ
 // eg diff_by_index("abcde", "axcye") -> [1, 4]
-fn diff_by_index(s1:&str, s2:&str) -> Vec<usize> {      // dunno why I have to use usize here, if I don't the push() fails
+fn diff_by_index(s1: &str, s2: &str) -> Vec<usize> {
+    // dunno why I have to use usize here, if I don't the push() fails
     let mut diff: Vec<usize> = Vec::new();
 
     assert_eq!(s1.len(), s2.len());
