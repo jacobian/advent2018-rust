@@ -1,13 +1,33 @@
+use std::char;
+use std::collections::HashMap;
 use std::io::prelude::*;
 use utils;
 
 fn main() {
     let mut file = utils::open_argv1();
     let mut original = String::new();
-    file.read_to_string(&mut original).expect("couldn't read file");
-    let trimmed = original.trim().to_string();
-    let reacted = react(&trimmed);
+    file.read_to_string(&mut original)
+        .expect("couldn't read file");
+    let original = original.trim().to_string();
+    let reacted = react(&original);
     println!("Remaining units: {}", reacted.len());
+
+    // Part 2
+    // Brute-force solution: try removing every char a-z, seeing which is shortest.
+    let letters = String::from("abcdefghijklmnopqrstuvwxy");
+    let mut replaced_lengths = HashMap::new();
+
+    for c in letters.chars() {
+        let replaced = original.replace(c, "").replace(c.to_ascii_uppercase(), "");
+        let reacted = react(&replaced);
+        replaced_lengths.insert(c, reacted.len());
+    }
+    let (removed_char, resulting_length) = replaced_lengths.iter().min_by_key(|k| k.1).unwrap();
+    println!(
+        "Removing '{}' yields shortest, length {}",
+        removed_char, resulting_length
+    );
+
 }
 
 fn react(s: &String) -> String {
@@ -16,7 +36,7 @@ fn react(s: &String) -> String {
     let mut index = 0;
     while index < v.len() - 1 {
         let this_char = v[index];
-        let next_char = v[index+1];
+        let next_char = v[index + 1];
         if reacts(this_char, next_char) {
             // remove this and the next char
             // not a typo: once we remove @ index, the next char slides down to become index
@@ -39,7 +59,8 @@ fn react(s: &String) -> String {
 // Returns true if a and b are of opposite case.
 fn reacts(a: char, b: char) -> bool {
     let char_matches = a.to_ascii_lowercase() == b.to_ascii_lowercase();
-    let case_mismatch = (a.is_uppercase() && b.is_lowercase()) || (a.is_lowercase() && b.is_uppercase());
+    let case_mismatch =
+        (a.is_uppercase() && b.is_lowercase()) || (a.is_lowercase() && b.is_uppercase());
     return char_matches && case_mismatch;
 }
 
